@@ -1,0 +1,3 @@
+# Server configurations
+api:
+  host: "localhost:3001"
