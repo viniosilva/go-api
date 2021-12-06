@@ -4,28 +4,35 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/viniosilva/go-api/app"
+	catApp "github.com/viniosilva/go-api/app/cat"
 )
 
 type CatController interface {
-	Configure(eng *gin.Engine)
+	Configure(eng *gin.RouterGroup)
 	FindCats(ctx *gin.Context)
 }
 
 type CatControllerImpl struct {
-	catApp app.CatApp
+	catApp catApp.CatApp
 }
 
-func NewCatController(catApp app.CatApp) CatController {
+func NewCatController(catApp catApp.CatApp) CatController {
 	return &CatControllerImpl{catApp: catApp}
 }
 
-func (impl CatControllerImpl) Configure(eng *gin.Engine) {
-	catGroup := eng.Group("/cats")
+func (impl CatControllerImpl) Configure(eng *gin.RouterGroup) {
+	catGroup := eng.Group("/v1/cats")
 
 	catGroup.GET("/", impl.FindCats)
 }
 
+// Cat FindCats godoc
+// @Schemes
+// @Description	Find cats route
+// @Tags		cat
+// @Produce		json
+// @Success		200 {object} catApp.ListCatsDto
+// @Router		/api/v1/cats [get]
 func (impl CatControllerImpl) FindCats(ctx *gin.Context) {
 	res := impl.catApp.FindCats()
 

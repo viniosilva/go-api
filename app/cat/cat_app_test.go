@@ -1,4 +1,4 @@
-package app
+package cat
 
 import (
 	"reflect"
@@ -15,18 +15,18 @@ func TestAppCatAppFindCats(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	cases := map[string]struct {
-		cats      []model.Cat
+		res       ListCatsDto
 		buildMock func(mock *repository.MockCatRepository)
 	}{
 		"should return cat list when cats exists": {
-			cats: []model.Cat{{ID: 1, Name: "Mimo", Birthday: time.Date(2020, 11, 20, 0, 0, 0, 0, time.UTC)}},
+			res: ListCatsDto{Data: []CatDto{{ID: 1, Name: "Mimo", Birthday: "2020-11-20"}}},
 			buildMock: func(mock *repository.MockCatRepository) {
 				mockCats := []model.Cat{{ID: 1, Name: "Mimo", Birthday: time.Date(2020, 11, 20, 0, 0, 0, 0, time.UTC)}}
 				mock.EXPECT().FindCats().Return(mockCats)
 			},
 		},
 		"should return empty cat list when cats not exists": {
-			cats: []model.Cat{},
+			res: ListCatsDto{Data: []CatDto{}},
 			buildMock: func(mock *repository.MockCatRepository) {
 				mock.EXPECT().FindCats().Return([]model.Cat{})
 			},
@@ -48,8 +48,8 @@ func TestAppCatAppFindCats(t *testing.T) {
 			res := app.FindCats()
 
 			// then
-			if !reflect.DeepEqual(res, cs.cats) {
-				t.Errorf("%s\nresult: %v\nexpected: %v", "Cats", res, cs.cats)
+			if !reflect.DeepEqual(res, cs.res) {
+				t.Errorf("%s\nresult: %v\nexpected: %v", "Cats", res, cs.res)
 			}
 		})
 	}

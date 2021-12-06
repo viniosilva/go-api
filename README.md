@@ -8,7 +8,7 @@ For studies
 $ make run
 ```
 
-See API documentation at http:localhost:3001/api-docs
+See API documentation at http://localhost:3001/api/swagger/index.html
 
 ## Test
 

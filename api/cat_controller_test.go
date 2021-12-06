@@ -6,12 +6,10 @@ import (
 	"net/http/httptest"
 	"reflect"
 	"testing"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
-	"github.com/viniosilva/go-api/app"
-	"github.com/viniosilva/go-api/model"
+	catApp "github.com/viniosilva/go-api/app/cat"
 )
 
 func TestApiCatControllerFindCats(t *testing.T) {
@@ -19,24 +17,22 @@ func TestApiCatControllerFindCats(t *testing.T) {
 
 	cases := map[string]struct {
 		status    int
-		body      []map[string]interface{}
-		buildMock func(mock *app.MockCatApp)
+		body      catApp.ListCatsDto
+		buildMock func(mock *catApp.MockCatApp)
 	}{
 		"should return cat list when cats exists": {
 			status: http.StatusOK,
-			body: []map[string]interface{}{
-				{"ID": 1.0, "Name": "Mimo", "Birthday": "2020-11-20T00:00:00Z"},
-			},
-			buildMock: func(mock *app.MockCatApp) {
-				mockCats := []model.Cat{{ID: 1, Name: "Mimo", Birthday: time.Date(2020, 11, 20, 0, 0, 0, 0, time.UTC)}}
+			body:   catApp.ListCatsDto{Data: []catApp.CatDto{{ID: 1, Name: "Mimo", Birthday: "2020-11-20"}}},
+			buildMock: func(mock *catApp.MockCatApp) {
+				mockCats := catApp.ListCatsDto{Data: []catApp.CatDto{{ID: 1, Name: "Mimo", Birthday: "2020-11-20"}}}
 				mock.EXPECT().FindCats().Return(mockCats)
 			},
 		},
 		"should return empty cat list when cats not exists": {
 			status: http.StatusOK,
-			body:   []map[string]interface{}{},
-			buildMock: func(mock *app.MockCatApp) {
-				mock.EXPECT().FindCats().Return([]model.Cat{})
+			body:   catApp.ListCatsDto{Data: []catApp.CatDto{}},
+			buildMock: func(mock *catApp.MockCatApp) {
+				mock.EXPECT().FindCats().Return(catApp.ListCatsDto{Data: []catApp.CatDto{}})
 			},
 		},
 	}
@@ -47,7 +43,7 @@ func TestApiCatControllerFindCats(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
 
-			mockCatApp := app.NewMockCatApp(ctrl)
+			mockCatApp := catApp.NewMockCatApp(ctrl)
 			cs.buildMock(mockCatApp)
 
 			res := httptest.NewRecorder()
@@ -57,15 +53,15 @@ func TestApiCatControllerFindCats(t *testing.T) {
 			// when
 			controller.FindCats(ctx)
 
-			var body []map[string]interface{}
+			var body catApp.ListCatsDto
 			json.Unmarshal(res.Body.Bytes(), &body)
 
 			// then
 			if res.Code != cs.status {
-				t.Errorf("%s\nresult: %v\nexpected: %v", "StatusCode", res.Code, cs.body)
+				t.Errorf("%s\nresult:\t\t%v\nexpected:\t%v", "StatusCode", res.Code, cs.body)
 			}
 			if !reflect.DeepEqual(body, cs.body) {
-				t.Errorf("%s\nresult: %s\nexpectedBody: %s", "Body", body, cs.body)
+				t.Errorf("%s\nresult:\t\t%v\nexpectedBody:\t%v", "Body", body, cs.body)
 			}
 		})
 	}

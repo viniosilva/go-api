@@ -2,13 +2,12 @@
 // Source: github.com/viniosilva/go-api/app (interfaces: CatApp)
 
 // Package app is a generated GoMock package.
-package app
+package cat
 
 import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	model "github.com/viniosilva/go-api/model"
 )
 
 // MockCatApp is a mock of CatApp interface.
@@ -35,10 +34,10 @@ func (m *MockCatApp) EXPECT() *MockCatAppMockRecorder {
 }
 
 // FindCats mocks base method.
-func (m *MockCatApp) FindCats() []model.Cat {
+func (m *MockCatApp) FindCats() ListCatsDto {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindCats")
-	ret0, _ := ret[0].([]model.Cat)
+	ret0, _ := ret[0].(ListCatsDto)
 	return ret0
 }
 

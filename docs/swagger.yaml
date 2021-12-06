@@ -1,0 +1,54 @@
+definitions:
+  api.HealthResponse:
+    properties:
+      status:
+        type: string
+    type: object
+  cat.CatDto:
+    properties:
+      birthday:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  cat.ListCatsDto:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/cat.CatDto'
+        type: array
+    type: object
+info:
+  contact: {}
+paths:
+  /api/health:
+    get:
+      description: Healthcheck route
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.HealthResponse'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/api.HealthResponse'
+      tags:
+      - health
+  /api/v1/cats:
+    get:
+      description: Find cats route
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/cat.ListCatsDto'
+      tags:
+      - cat
+swagger: "2.0"

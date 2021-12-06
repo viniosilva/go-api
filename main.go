@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/viniosilva/go-api/api"
-	"github.com/viniosilva/go-api/app"
+	catApp "github.com/viniosilva/go-api/app/cat"
 	"github.com/viniosilva/go-api/internal/config"
 	"github.com/viniosilva/go-api/repository"
 )
@@ -16,7 +16,7 @@ func main() {
 	healthController := api.NewHealthController()
 
 	catRepository := repository.NewCatRepository()
-	catService := app.NewCatApp(catRepository)
+	catService := catApp.NewCatApp(catRepository)
 	catController := api.NewCatController(catService)
 
 	server := api.NewServer(healthController, catController)

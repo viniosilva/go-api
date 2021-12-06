@@ -14,3 +14,6 @@ update:
 mock:
 	rm ./**/*_mock.go
 	go generate ./...
+
+swagger:
+	swag init

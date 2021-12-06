@@ -14,11 +14,9 @@ func TestApiHealthControllerHealth(t *testing.T) {
 
 	cases := map[string]struct {
 		status int
-		body   map[string]interface{}
+		body   HealthResponse
 	}{
-		"should return status ok": {http.StatusOK, map[string]interface{}{
-			"status": "OK",
-		}},
+		"should return status ok": {http.StatusOK, HealthResponse{Status: HealthStatusOK}},
 	}
 
 	for name, cs := range cases {
@@ -30,16 +28,15 @@ func TestApiHealthControllerHealth(t *testing.T) {
 
 			// when
 			controller.Health(ctx)
-			body := res.Body.String()
-			jsonb, _ := json.Marshal(cs.body)
-			expectedBody := string(jsonb)
+			var body HealthResponse
+			json.Unmarshal(res.Body.Bytes(), &body)
 
 			// then
 			if res.Code != cs.status {
-				t.Errorf("%s\nresult: %v\nexpected: %v", "StatusCode", res.Code, cs.body)
+				t.Errorf("%s\nresult:\t\t%v\nexpected:\t%v", "StatusCode", res.Code, cs.body)
 			}
-			if body != expectedBody {
-				t.Errorf("%s\nresult: %s\nexpectedBody: %s", "Body", body, expectedBody)
+			if body != cs.body {
+				t.Errorf("%s\nresult:\t\t%v\nexpectedBody:\t%v", "Body", body, cs.body)
 			}
 		})
 	}
