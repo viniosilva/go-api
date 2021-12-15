@@ -46,15 +46,71 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create cat route",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cat"
+                ],
+                "parameters": [
+                    {
+                        "description": "Cat",
+                        "name": "cat",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/cat.CatCmd"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/cat.CatDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrorResponse"
+                        }
+                    }
+                }
             }
         }
     },
     "definitions": {
+        "api.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Invalid request"
+                }
+            }
+        },
         "api.HealthResponse": {
             "type": "object",
             "properties": {
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "cat.CatCmd": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "type": "string",
+                    "example": "2000-01-01"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Mimoso"
                 }
             }
         },

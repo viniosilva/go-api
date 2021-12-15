@@ -1,3 +1,9 @@
+infra/up:
+	docker-compose up -d
+
+down:
+	docker-compose down --remove-orphans
+
 run:
 	go run main.go
 
@@ -12,7 +18,7 @@ update:
 	go mod tidy
 
 mock:
-	rm ./**/*_mock.go
+	find . -name "*_mock.go" -type f -delete
 	go generate ./...
 
 swagger:

@@ -34,16 +34,30 @@ func (m *MockCatRepository) EXPECT() *MockCatRepositoryMockRecorder {
 	return m.recorder
 }
 
-// FindCats mocks base method.
-func (m *MockCatRepository) FindCats() []model.Cat {
+// Create mocks base method.
+func (m *MockCatRepository) Create(arg0 *model.Cat) *model.Cat {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindCats")
+	ret := m.ctrl.Call(m, "Create", arg0)
+	ret0, _ := ret[0].(*model.Cat)
+	return ret0
+}
+
+// Create indicates an expected call of Create.
+func (mr *MockCatRepositoryMockRecorder) Create(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockCatRepository)(nil).Create), arg0)
+}
+
+// Find mocks base method.
+func (m *MockCatRepository) Find() []model.Cat {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find")
 	ret0, _ := ret[0].([]model.Cat)
 	return ret0
 }
 
-// FindCats indicates an expected call of FindCats.
-func (mr *MockCatRepositoryMockRecorder) FindCats() *gomock.Call {
+// Find indicates an expected call of Find.
+func (mr *MockCatRepositoryMockRecorder) Find() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindCats", reflect.TypeOf((*MockCatRepository)(nil).FindCats))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCatRepository)(nil).Find))
 }

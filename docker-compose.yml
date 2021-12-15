@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: goapi
+      MYSQL_USER: goapi
+      MYSQL_PASSWORD: goapi
+      MYSQL_DATABASE: goapi
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080

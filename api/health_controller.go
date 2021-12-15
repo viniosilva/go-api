@@ -22,13 +22,13 @@ type HealthController interface {
 	Health(ctx *gin.Context)
 }
 
-type HealthControllerImpl struct{}
+type healthControllerImpl struct{}
 
 func NewHealthController() HealthController {
-	return &HealthControllerImpl{}
+	return &healthControllerImpl{}
 }
 
-func (impl HealthControllerImpl) Configure(eng *gin.RouterGroup) {
+func (impl healthControllerImpl) Configure(eng *gin.RouterGroup) {
 	healthGroup := eng.Group("/health")
 
 	healthGroup.GET("/", impl.Health)
@@ -42,6 +42,6 @@ func (impl HealthControllerImpl) Configure(eng *gin.RouterGroup) {
 // @Success		200 {object} HealthResponse
 // @Failure		503 {object} HealthResponse
 // @Router		/api/health [get]
-func (impl HealthControllerImpl) Health(ctx *gin.Context) {
+func (impl healthControllerImpl) Health(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, HealthResponse{Status: HealthStatusOK})
 }

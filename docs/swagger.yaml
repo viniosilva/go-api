@@ -1,7 +1,22 @@
 definitions:
+  api.ErrorResponse:
+    properties:
+      message:
+        example: Invalid request
+        type: string
+    type: object
   api.HealthResponse:
     properties:
       status:
+        type: string
+    type: object
+  cat.CatCmd:
+    properties:
+      birthday:
+        example: "2000-01-01"
+        type: string
+      name:
+        example: Mimoso
         type: string
     type: object
   cat.CatDto:
@@ -49,6 +64,28 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/cat.ListCatsDto'
+      tags:
+      - cat
+    post:
+      description: Create cat route
+      parameters:
+      - description: Cat
+        in: body
+        name: cat
+        required: true
+        schema:
+          $ref: '#/definitions/cat.CatCmd'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/cat.CatDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
       tags:
       - cat
 swagger: "2.0"

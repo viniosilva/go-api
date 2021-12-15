@@ -5,7 +5,7 @@ import (
 )
 
 type Cat struct {
-	ID       int
-	Name     string
+	ID       int `gorm:"primaryKey"`
 	Birthday time.Time
+	Name     string
 }

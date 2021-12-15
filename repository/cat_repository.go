@@ -1,18 +1,33 @@
 package repository
 
-import "github.com/viniosilva/go-api/model"
+import (
+	"github.com/viniosilva/go-api/model"
+	"gorm.io/gorm"
+)
 
 //go:generate mockgen -destination=cat_repository_mock.go -package=repository . CatRepository
 type CatRepository interface {
-	FindCats() []model.Cat
+	Create(cat *model.Cat) *model.Cat
+	Find() []model.Cat
 }
 
-type CatRepositoryImpl struct{}
-
-func NewCatRepository() CatRepository {
-	return &CatRepositoryImpl{}
+type catRepositoryImpl struct {
+	gormDB *gorm.DB
 }
 
-func (impl CatRepositoryImpl) FindCats() []model.Cat {
-	return []model.Cat{}
+func NewCatRepository(gormDB *gorm.DB) CatRepository {
+	return &catRepositoryImpl{gormDB: gormDB}
+}
+
+func (impl catRepositoryImpl) Create(cat *model.Cat) *model.Cat {
+	impl.gormDB.Create(cat)
+
+	return cat
+}
+
+func (impl catRepositoryImpl) Find() []model.Cat {
+	var cats []model.Cat
+	impl.gormDB.Find(&cats)
+
+	return cats
 }
