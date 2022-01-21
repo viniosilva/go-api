@@ -1,25 +1,16 @@
 definitions:
-  api.ErrorResponse:
+  dto.ErrorResponse:
     properties:
       message:
         example: Invalid request
         type: string
     type: object
-  api.HealthResponse:
+  health.HealthResponse:
     properties:
       status:
         type: string
     type: object
-  cat.CatCmd:
-    properties:
-      birthday:
-        example: "2000-01-01"
-        type: string
-      name:
-        example: Mimoso
-        type: string
-    type: object
-  cat.CatDto:
+  route.CatResponse:
     properties:
       birthday:
         type: string
@@ -28,11 +19,29 @@ definitions:
       name:
         type: string
     type: object
-  cat.ListCatsDto:
+  route.CreateCatRequest:
+    properties:
+      birthday:
+        example: "2000-01-01"
+        type: string
+      name:
+        example: Mimoso
+        type: string
+    type: object
+  route.CreateCatResponse:
+    properties:
+      birthday:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  route.FindCatsResponse:
     properties:
       data:
         items:
-          $ref: '#/definitions/cat.CatDto'
+          $ref: '#/definitions/route.CatResponse'
         type: array
     type: object
 info:
@@ -47,11 +56,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/api.HealthResponse'
+            $ref: '#/definitions/health.HealthResponse'
         "503":
           description: Service Unavailable
           schema:
-            $ref: '#/definitions/api.HealthResponse'
+            $ref: '#/definitions/health.HealthResponse'
       tags:
       - health
   /api/v1/cats:
@@ -63,7 +72,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/cat.ListCatsDto'
+            $ref: '#/definitions/route.FindCatsResponse'
       tags:
       - cat
     post:
@@ -74,18 +83,18 @@ paths:
         name: cat
         required: true
         schema:
-          $ref: '#/definitions/cat.CatCmd'
+          $ref: '#/definitions/route.CreateCatRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/cat.CatDto'
+            $ref: '#/definitions/route.CreateCatResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/api.ErrorResponse'
+            $ref: '#/definitions/dto.ErrorResponse'
       tags:
       - cat
 swagger: "2.0"

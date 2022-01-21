@@ -1,5 +1,5 @@
-package api
+package dto
 
-type ErrorResponse struct {
+type ErrorResponseDto struct {
 	Message string `json:"message" example:"Invalid request"`
 }

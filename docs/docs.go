@@ -36,13 +36,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/api.HealthResponse"
+                            "$ref": "#/definitions/health.HealthResponse"
                         }
                     },
                     "503": {
                         "description": "Service Unavailable",
                         "schema": {
-                            "$ref": "#/definitions/api.HealthResponse"
+                            "$ref": "#/definitions/health.HealthResponse"
                         }
                     }
                 }
@@ -61,7 +61,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/cat.ListCatsDto"
+                            "$ref": "#/definitions/route.FindCatsResponse"
                         }
                     }
                 }
@@ -81,7 +81,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/cat.CatCmd"
+                            "$ref": "#/definitions/route.CreateCatRequest"
                         }
                     }
                 ],
@@ -89,13 +89,13 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/cat.CatDto"
+                            "$ref": "#/definitions/route.CreateCatResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/api.ErrorResponse"
+                            "$ref": "#/definitions/dto.ErrorResponse"
                         }
                     }
                 }
@@ -103,7 +103,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "api.ErrorResponse": {
+        "dto.ErrorResponse": {
             "type": "object",
             "properties": {
                 "message": {
@@ -112,7 +112,7 @@ var doc = `{
                 }
             }
         },
-        "api.HealthResponse": {
+        "health.HealthResponse": {
             "type": "object",
             "properties": {
                 "status": {
@@ -120,20 +120,7 @@ var doc = `{
                 }
             }
         },
-        "cat.CatCmd": {
-            "type": "object",
-            "properties": {
-                "birthday": {
-                    "type": "string",
-                    "example": "2000-01-01"
-                },
-                "name": {
-                    "type": "string",
-                    "example": "Mimoso"
-                }
-            }
-        },
-        "cat.CatDto": {
+        "route.CatResponse": {
             "type": "object",
             "properties": {
                 "birthday": {
@@ -147,13 +134,40 @@ var doc = `{
                 }
             }
         },
-        "cat.ListCatsDto": {
+        "route.CreateCatRequest": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "type": "string",
+                    "example": "2000-01-01"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Mimoso"
+                }
+            }
+        },
+        "route.CreateCatResponse": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "route.FindCatsResponse": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/cat.CatDto"
+                        "$ref": "#/definitions/route.CatResponse"
                     }
                 }
             }

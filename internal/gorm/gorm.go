@@ -7,7 +7,6 @@ import (
 	"gorm.io/gorm"
 )
 
-//go:generate mockgen -destination=gorm_mock.go -package=gorm . Gorm
 type Gorm interface {
 	GetDB() *gorm.DB
 	Migrate(models ...interface{})
@@ -36,10 +35,10 @@ func NewGorm(p GormParams) Gorm {
 	return &gormImpl{DB: db}
 }
 
-func (impl gormImpl) GetDB() *gorm.DB {
+func (impl *gormImpl) GetDB() *gorm.DB {
 	return impl.DB
 }
 
-func (impl gormImpl) Migrate(models ...interface{}) {
+func (impl *gormImpl) Migrate(models ...interface{}) {
 	impl.DB.AutoMigrate(models...)
 }

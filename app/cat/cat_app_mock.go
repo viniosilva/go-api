@@ -33,31 +33,32 @@ func (m *MockCatApp) EXPECT() *MockCatAppMockRecorder {
 	return m.recorder
 }
 
-// CreateCat mocks base method.
-func (m *MockCatApp) CreateCat(arg0 CatCmd) (CatDto, error) {
+// Create mocks base method.
+func (m *MockCatApp) Create(arg0 CreateDto) (CreateResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateCat", arg0)
-	ret0, _ := ret[0].(CatDto)
+	ret := m.ctrl.Call(m, "Create", arg0)
+	ret0, _ := ret[0].(CreateResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// CreateCat indicates an expected call of CreateCat.
-func (mr *MockCatAppMockRecorder) CreateCat(arg0 interface{}) *gomock.Call {
+// Create indicates an expected call of Create.
+func (mr *MockCatAppMockRecorder) Create(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCat", reflect.TypeOf((*MockCatApp)(nil).CreateCat), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockCatApp)(nil).Create), arg0)
 }
 
-// FindCats mocks base method.
-func (m *MockCatApp) FindCats() ListCatsDto {
+// List mocks base method.
+func (m *MockCatApp) List() (ListResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindCats")
-	ret0, _ := ret[0].(ListCatsDto)
-	return ret0
+	ret := m.ctrl.Call(m, "List")
+	ret0, _ := ret[0].(ListResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
-// FindCats indicates an expected call of FindCats.
-func (mr *MockCatAppMockRecorder) FindCats() *gomock.Call {
+// List indicates an expected call of List.
+func (mr *MockCatAppMockRecorder) List() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindCats", reflect.TypeOf((*MockCatApp)(nil).FindCats))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockCatApp)(nil).List))
 }

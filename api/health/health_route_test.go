@@ -1,4 +1,4 @@
-package api
+package health
 
 import (
 	"encoding/json"
@@ -24,10 +24,10 @@ func TestApiHealthControllerHealth(t *testing.T) {
 			// given
 			res := httptest.NewRecorder()
 			ctx, _ := gin.CreateTestContext(res)
-			controller := NewHealthController()
+			api := NewApi()
 
 			// when
-			controller.Health(ctx)
+			api.Health(ctx)
 			var body HealthResponse
 			json.Unmarshal(res.Body.Bytes(), &body)
 
